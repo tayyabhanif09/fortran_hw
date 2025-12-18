@@ -1,47 +1,51 @@
-program geomath
+program main
     use types
-    use geom2d
-    use mathfun
-
+    use sort_numbers
     implicit none
-    real(kind=rkind) :: a, b, area_circle, addition, area_square
+
+
+    real(kind=rkind), dimension(:), allocatable :: vinput, voutput, vin_c
+    logical :: t
+
+    !allocates a test vector, fills with a mix of positive/negative/large values
+    vinput = [2.0_rkind, -3.0_rkind, 1000.0_rkind, 675.0_rkind, -68000.0_rkind]
+    vin_c = vinput
 
 
 
-
-    print*, "input a = "
-    read(*,*) a
-    print*, "input b = "
-    read(*,*) b
+    t = checkinputs(vinput,voutput)
 
 
-
-    ! summ of real numbers
-    addition = add(a,b)
-    print*, "addition of a and b = ", addition
+!calls the non-destructive descending sort (sorthighlow) and prints the result
+    call sorthighlow(vinput,voutput,t)
 
 
-    ! swapping two variables and numbers
-    call swap(a,b)
-    print*, "swaped a and b: ", a,b
 
+! verifies the input vector remained unchanged
 
-    ! area of circle
-
-    area_circle = carea(a)
-    print*, "area of circle is: ", area_circle
-
-
-    ! area of square
-
-    area_square = sarea(b)
-    print*, "area of square: ", area_square
+   call checkinputvec(vinput,vin_c,voutput)
 
 
 
 
 
+!calls the non-destructive ascending sort (sortlowhigh) and prints the result
+    call sortlowhigh(vinput,voutput,t)
 
 
-end program geomath
+!calls the destructive ascending sort (sortlowhigh) and prints the result
+    call sortlowhigh_inplace(vinput)
 
+!calls the destructive descending sort (sorthighlow) and prints the result
+    call sorthighlow_inplace(vinput)
+
+
+
+! calls the permutation sort and prints the result
+    call permut(vinput)
+
+
+
+
+
+end program main
